@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: fastapi-backend-container
-        image: azisa06/fastapi-hello:latest
+        image: azisa06/fastapi-hello:latest{{tag}}
         ports:
         - containerPort: 8000
 ---
