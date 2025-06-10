@@ -34,6 +34,6 @@ pipeline {
                     sh "sed -i 's/{{tag}}/$tag_version/g' ${K8S_DEPLOYMENT_FILE}"
                     sh "kubectl apply -f ${K8S_DEPLOYMENT_FILE}"
                 }
-        } 
-    }
+            } 
+        }
 }
