@@ -6,7 +6,7 @@ pipeline {
         BUILD_CONTEXT_PATH = './backend'
         KUBECONFIG_CREDENTIALS_ID = 'kubeconfig'
         K8S_DEPLOYMENT_FILE = 'k8s/deployment-backend.yaml'
-        tag_version = '${env.BUILD_ID}'
+        tag_version = "${env.BUILD_ID}"
     }
     stages {
         stage('Build Docker Image') {
@@ -16,7 +16,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Push Docker Image') {
             steps {
                 script {
@@ -26,15 +26,32 @@ pipeline {
                     }
                 }
             }
-        }     
+        }
 
         stage('Deploy no Kubernetes') {
             steps {
                 withKubeConfig([credentialsId: KUBECONFIG_CREDENTIALS_ID]) {
-                    sh "sed -i 's/{{tag}}/$tag_version/g' ${K8S_DEPLOYMENT_FILE}"
-                    sh "kubectl apply -f ${K8S_DEPLOYMENT_FILE}"
+                    //sh para bat usando powershell para o sed
+                    bat "powershell -Command \"(Get-Content ${K8S_DEPLOYMENT_FILE}) -replace '{{tag}}', '${tag_version}' | Set-Content ${K8S_DEPLOYMENT_FILE}\""
+
+                    //sh para bat para o 'kubectl apply'
+                    bat "kubectl apply -f ${K8S_DEPLOYMENT_FILE}"
                 }
-            } 
+            }
+        }
+    }
+
+    //bloco de ações
+    post {
+        always {
+            //comando de shell, então também deve ser 'bat'
+            bat "docker logout"
+        }
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
         }
     }
 }
