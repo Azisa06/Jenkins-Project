@@ -28,6 +28,16 @@ pipeline {
             }
         }
 
+        stage('Vulnerability Scan with Trivy') {
+            steps {
+                script {
+                    echo "Starting Trivy vulnerability scan for image: ${DOCKER_IMAGE_REPO}:${tag_version}"
+                    bat "trivy image --severity CRITICAL,HIGH --exit-code 1 ${DOCKER_IMAGE_REPO}:${tag_version}"
+                    echo "Trivy scan completed."
+                }
+            }
+        }
+
         stage('Deploy no Kubernetes') {
             steps {
                 withKubeConfig([credentialsId: KUBECONFIG_CREDENTIALS_ID]) {
