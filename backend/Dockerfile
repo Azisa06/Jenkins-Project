@@ -1,4 +1,4 @@
-FROM python:3.11-slim-bookworm
+FROM python:3.12-alpine
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --upgrade pip setuptools wheel -r requirements.txt
