@@ -64,9 +64,7 @@ pipeline {
                 withCredentials([string(credentialsId: DISCORD_WEBHOOK_CREDENTIALS_ID, variable: 'DISCORD_WEBHOOK_URL')]) {
                     discordSend(
                         webhookURL: "${DISCORD_WEBHOOK_URL}",
-                        content: "✅ **Pipeline SUCESSO**\nProjeto: `${env.JOB_NAME}`\nBuild: `${env.BUILD_NUMBER}`\nVersão: `${tag_version}`\nStatus: ✅ **Deploy no Kubernetes COMPLETO!**\nLog: ${env.BUILD_URL}",
-                        username: "Jenkins",
-                        avatarUrl: "https://jenkins.io/images/logos/jenkins/jenkins.png" //ícone do Jenkins
+                        text: "✅ **Pipeline SUCESSO**\nProjeto: `${env.JOB_NAME}`\nBuild: `${env.BUILD_NUMBER}`\nVersão: `${tag_version}`\nStatus: ✅ **Deploy no Kubernetes COMPLETO!**\nLog: ${env.BUILD_URL}",
                     )
                 }
             }
@@ -77,9 +75,7 @@ pipeline {
                 withCredentials([string(credentialsId: DISCORD_WEBHOOK_CREDENTIALS_ID, variable: 'DISCORD_WEBHOOK_URL')]) {
                     discordSend(
                         webhookURL: "${DISCORD_WEBHOOK_URL}",
-                        content: "❌ **Pipeline FALHOU**\nProjeto: `${env.JOB_NAME}`\nBuild: `${env.BUILD_NUMBER}`\nEstágio: `${env.STAGE_NAME}`\nStatus: ❌ **Falha no Pipeline!**\nLog: ${env.BUILD_URL}",
-                        username: "Jenkins",
-                        avatarUrl: "https://jenkins.io/images/logos/jenkins/jenkins.png"
+                        text: "❌ **Pipeline FALHOU**\nProjeto: `${env.JOB_NAME}`\nBuild: `${env.BUILD_NUMBER}`\nEstágio: `${env.STAGE_NAME}`\nStatus: ❌ **Falha no Pipeline!**\nLog: ${env.BUILD_URL}",
                     )
                 }
             }
