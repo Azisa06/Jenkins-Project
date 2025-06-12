@@ -64,7 +64,10 @@ pipeline {
                 withCredentials([string(credentialsId: DISCORD_WEBHOOK_CREDENTIALS_ID, variable: 'DISCORD_WEBHOOK_URL')]) {
                     discordSend(
                         webhookURL: "${DISCORD_WEBHOOK_URL}",
-                        text: "✅ **Pipeline SUCESSO**\nProjeto: `${env.JOB_NAME}`\nBuild: `${env.BUILD_NUMBER}`\nVersão: `${tag_version}`\nStatus: ✅ **Deploy no Kubernetes COMPLETO!**\nLog: ${env.BUILD_URL}",
+                        title: "✅ SUCESSO na Pipeline: ${env.JOB_NAME}",
+                        description: "**Build #${env.BUILD_NUMBER}** da versão `${tag_version}` deployado com sucesso no Kubernetes!\n[Ver Log do Jenkins](${env.BUILD_URL})",
+                        link: env.BUILD_URL,
+                        result: 'SUCCESS' //cor verde
                     )
                 }
             }
@@ -75,7 +78,10 @@ pipeline {
                 withCredentials([string(credentialsId: DISCORD_WEBHOOK_CREDENTIALS_ID, variable: 'DISCORD_WEBHOOK_URL')]) {
                     discordSend(
                         webhookURL: "${DISCORD_WEBHOOK_URL}",
-                        text: "❌ **Pipeline FALHOU**\nProjeto: `${env.JOB_NAME}`\nBuild: `${env.BUILD_NUMBER}`\nEstágio: `${env.STAGE_NAME}`\nStatus: ❌ **Falha no Pipeline!**\nLog: ${env.BUILD_URL}",
+                        title: "❌ FALHA na Pipeline: ${env.JOB_NAME}",
+                        description: "**Build #${env.BUILD_NUMBER}** da versão `${tag_version}` falhou no estágio `${env.STAGE_NAME}`.\n[Ver Log do Jenkins](${env.BUILD_URL})",
+                        link: env.BUILD_URL,
+                        result: 'FAILURE' //cor vermelha
                     )
                 }
             }
