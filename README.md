@@ -140,9 +140,9 @@ Baixar os seguintes plugins:
 
 ![alt text](images/image5-1.png)   
 
-* Clique em 'Construir agora' e a build do Job será iniciada.
+* O build será iniciado automáticamente por causa do webhook Github:
 
-![alt text](images/image6.png)   
+![alt text](images/image5-2.png)   
 
 ### Fase 5: Automatizando o Deploy com Jenkins
 
